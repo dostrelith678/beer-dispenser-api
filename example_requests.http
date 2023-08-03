@@ -1,0 +1,42 @@
+### Authenticate user
+POST http://localhost:5000/auth/login HTTP/1.1
+content-type: application/json
+
+{
+      "username": "dispenser",
+      "password": "admin"
+}
+
+### Create dispenser
+POST http://localhost:5000/api/dispenser HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MTA3ODUxOCwianRpIjoiYWM0Mzk5NTAtZTQzZS00MjVmLWFlY2YtNTc0MmM3NWQxNzZlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjkxMDc4NTE4LCJleHAiOjE2OTEwNzk0MTh9.P0sYOma9CArzVpY5c4EeTwyv1fBJ9fDe3zF348yp-lA
+
+{
+      "flow_volume": 0.5,
+      "price": 1
+}
+
+### Get all dispensers
+GET http://localhost:5000/api/dispenser HTTP/1.1
+content-type: application/json
+
+### Get specific dispenser
+GET http://localhost:5000/api/dispenser/4 HTTP/1.1
+content-type: application/json
+
+### Open dispenser
+POST http://localhost:5000/api/dispenser/4/open HTTP/1.1
+content-type: application/json
+
+### Close dispenser
+POST http://localhost:5000/api/dispenser/4/close HTTP/1.1
+content-type: application/json
+
+### Get dispenser statistics
+GET http://localhost:5000/api/statistics/4 HTTP/1.1
+content-type: application/json
+
+### Get statistics
+GET http://localhost:5000/api/statistics HTTP/1.1
+content-type: application/json
