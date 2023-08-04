@@ -65,6 +65,7 @@ This project is built using the following technologies:
 * Pytest: A testing framework for writing unit tests.
 * Gunicorn: A Python WSGI HTTP Server for production.
 * Bash: A Unix shell language for a tiny dispenser monitoring script.
+* Render: A cloud platform for hosting and deploying the API and the database in production.
 
 
 #### Database Design
@@ -84,6 +85,11 @@ Build and start the container with the following commands:
 docker build -t beer-dispenser-api .
 docker run -p 5000:5000 beer-dispenser-api
 ```
+
+You can access the Docker container with:
+`docker exec -it <CONTAINER_ID> /bin/bash`
+You can find the `CONTAINER_ID` by listing all running containers:
+`docker ps`
 
 You can also use run the project without Docker in a virtual environment
 with the provided `run_dev.py` script.
@@ -191,6 +197,33 @@ Because the project uses SQLAlchemy, everything will work with different databas
 
 That's it!
 
+### CI/CD
+This project uses a GitHub workflow integrated with [Render](https://render.com/) for CI/CD. The workflow is a simple `build-and-test` -> `deploy`. Render was chosen because it provides a free postgreSQL database and a free web worker. Here are the general steps in order to make this work for your project:
+
+1. Register on [Render](https://render.com/)
+2. Create a new postgreSQL resource -> find the `DB_URI` for this database
+3. Create a new Web Service resource and configure it with build and start commands and environment variables (in addition to our projects' variables set the `PYTHON_VERSION` to `3.8.10`):
+```
+pip3 install --upgrade pip && pip install -r requirements.txt
+```
+```
+gunicorn wsgi:app
+```
+4. Turn auto-deploy on -> this gives you a *deploy hook* from which you can find your `service-id` (e.g. `srv-97tasd...`)
+5. Create your `RENDER_API_KEY` from the Render Account settings page.
+6. Add secrets to your GitHub repo:
+```
+RENDER_API_KEY=your_render_API_key
+RENDER_SERVICE_ID=your_render_service_id
+``` 
+That's it, the pipeline will trigger on every push to the `master` branch.
+
+This deployment is available at https://beer-dispenser-api.onrender.com/api/dispenser.
+You can use the following credentials to play around as an admin:
+
+Username: `dispenser`
+Password: `admin`
+
 ## Considerations / Possible features
 
 1. Currently, the app creates one admin once started from the enviroment variables `ADMIN_USERNAME` and `ADMIN_PASSWORD`. Any additional admins would have to be added to the database manually. A possible extension to the project would be admin management, but for this iteration it is considered out of scope.
@@ -210,16 +243,16 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/dostrelith678/beer-dispenser-api.svg?style=for-the-badge
 [contributors-url]: https://github.com/dostrelith678/beer-dispenser-api/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/dostrelith678/beer-dispenser-api.svg?style=for-the-badge
 [forks-url]: https://github.com/dostrelith678/beer-dispenser-api/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/dostrelith678/beer-dispenser-api.svg?style=for-the-badge
 [stars-url]: https://github.com/dostrelith678/beer-dispenser-api/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/dostrelith678/beer-dispenser-api.svg?style=for-the-badge
 [issues-url]:https://github.com/dostrelith678/beer-dispenser-api/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE
+[license-shield]: https://img.shields.io/github/license/dostrelith678/beer-dispenser-api.svg?style=for-the-badge
+[license-url]: https://github.com/dostrelith678/beer-dispenser-api/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/damjan-ostrelic
 
