@@ -218,7 +218,7 @@ RENDER_SERVICE_ID=your_render_service_id
 ``` 
 That's it, the pipeline will trigger on every push to the `master` branch.
 
-This deployment is available at https://beer-dispenser-api.onrender.com/api/dispenser.
+This deployment is available at https://beer-dispenser-api.onrender.com/api/docs.
 You can use the following credentials to play around as an admin:
 
 Username: `dispenser`

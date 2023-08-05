@@ -1,7 +1,8 @@
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 from app.routes.api import bp as api_blueprint
 from app.routes.auth import bp as auth_blueprint
+from app.routes.swagger import bp as swagger_blueprint
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
@@ -20,6 +21,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = jwt_secret
 jwt = JWTManager(app)
 
-
 app.register_blueprint(api_blueprint, url_prefix="/api")
 app.register_blueprint(auth_blueprint, url_prefix="/auth")
+app.register_blueprint(swagger_blueprint)
+
+
+@app.route("/docs/api.spec.yaml")
+def specs():
+    return send_from_directory(os.getcwd(), "docs/api.spec.yaml")

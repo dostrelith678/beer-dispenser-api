@@ -3,7 +3,7 @@ info:
   title: Beer Dispenser API
   version: 1.0.0
 paths:
-  /dispenser:
+  api/dispenser:
     get:
       summary: Retrieve all dispensers
       responses:
@@ -38,7 +38,7 @@ paths:
                   flow_volume: 0.04
                   price: 1.8
 
-  /dispenser/{dispenser_id}:
+  api/dispenser/{dispenser_id}:
     get:
       summary: Retrieve information about a dispenser
       parameters:
@@ -57,7 +57,7 @@ paths:
                 flow_volume: 0.05
                 price: 1.5
                 status: closed
-  /dispenser/{dispenser_id}/open:
+  api/dispenser/{dispenser_id}/open:
     post:
       summary: Open a dispenser
       parameters:
@@ -69,7 +69,7 @@ paths:
       responses:
         '200':
           description: Dispenser opened successfully
-  /dispenser/{dispenser_id}/close:
+  api/dispenser/{dispenser_id}/close:
     post:
       summary: Close a dispenser
       parameters:
@@ -86,7 +86,7 @@ paths:
               example:
                 amount: 0.5
                 cost: 2.5
-  /statistics/:
+  api/statistics/:
     get:
       summary: Retrieve statistics for all dispenser
       responses:
@@ -141,7 +141,7 @@ paths:
                       revenue: 1.2
                       start_time: "2023-07-14T11:00:00Z"
                       end_time: "2023-07-14T11:02:00Z"
-  /statistics/{dispenser_id}:
+  api/statistics/{dispenser_id}:
     get:
       summary: Retrieve statistics for a dispenser
       parameters:
